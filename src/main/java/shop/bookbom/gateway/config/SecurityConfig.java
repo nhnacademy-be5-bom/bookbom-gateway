@@ -55,6 +55,7 @@ public class SecurityConfig  {
         http
                 .httpBasic().disable()
                 .formLogin().disable()
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .csrf().disable()
                 .cors().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -67,13 +68,11 @@ public class SecurityConfig  {
                 .addFilterBefore(initialAuthenticationFilter, UserIdRoleFilter.class);
 
         http
-                .antMatcher("/shop/**")
-                .addFilterAfter(jwtAuthenticationFilter, InitialAuthenticationFilter .class); // or any other filter
-        http
                 .authorizeRequests()
-                .antMatchers("/admin/**").hasAnyRole("ROLE_ADMIN")
+                .antMatchers("/admin/**").hasAnyRole("ADMIN")
+                .antMatchers("/shop/**").hasAnyRole("USER")
                 .antMatchers("/open/**").permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().permitAll();
 
         return http.build();
     }
