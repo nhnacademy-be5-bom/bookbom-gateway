@@ -18,8 +18,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import shop.bookbom.gateway.common.exception.BaseException;
 import shop.bookbom.gateway.common.exception.ErrorCode;
-import shop.bookbom.gateway.config.JwtConfig;
 import shop.bookbom.gateway.security.authentication.UserEmailPasswordAuthentication;
+import shop.bookbom.gateway.security.jwt.JwtConfig;
 
 /**
  * jwt 토큰을 검증하는 필터
@@ -29,7 +29,6 @@ import shop.bookbom.gateway.security.authentication.UserEmailPasswordAuthenticat
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-
     @Autowired
     private final JwtConfig jwtTokenProvider;
 

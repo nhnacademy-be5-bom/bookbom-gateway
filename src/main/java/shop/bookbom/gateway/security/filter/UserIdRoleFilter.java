@@ -23,9 +23,8 @@ import shop.bookbom.gateway.security.proxy.AuthServerProxy;
 @RequiredArgsConstructor
 @Slf4j
 public class UserIdRoleFilter extends OncePerRequestFilter {
-
     @Autowired
-    private AuthServerProxy authServerProxy;
+    private final AuthServerProxy authServerProxy;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)

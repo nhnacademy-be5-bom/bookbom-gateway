@@ -1,4 +1,4 @@
-package shop.bookbom.gateway.config;
+package shop.bookbom.gateway.security.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;

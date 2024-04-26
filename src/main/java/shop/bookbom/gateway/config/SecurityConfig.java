@@ -32,34 +32,43 @@ public class SecurityConfig  {
      *  권한 확인이 필요 없는 api 요청 url을 추가
      *  차후 수정
      */
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring()
+                .antMatchers("/shop/members/signup")
+                .antMatchers("/open/**");
+    }
+
 //    @Bean
-//    public WebSecurityCustomizer webSecurityCustomizer() {
-//        return (web) -> web.ignoring()
-//                .antMatchers("/shop/members");
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        http.csrf().disable()
+//                .formLogin().disable()
+//                .authorizeRequests()
+//                .anyRequest().permitAll();
+//        log.debug("form login disable");
+//        return http.build();
 //    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        http.httpBasic().disable();
-        log.debug("http basic disable");
-        http.formLogin().disable();
-        log.debug("form login disable");
-        http.csrf().disable();
-        log.debug("csrf disable");
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http
+                .httpBasic().disable()
+                .formLogin().disable()
+                .csrf().disable()
+                .cors().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http
                 .authorizeRequests()
                 .antMatchers("/auth/token").authenticated()
                 .and()
-                .addFilterBefore(initialAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterAfter(userIdRoleFilter, InitialAuthenticationFilter.class);
+                .addFilterBefore(userIdRoleFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(initialAuthenticationFilter, UserIdRoleFilter.class);
 
         http
                 .antMatcher("/shop/**")
                 .addFilterAfter(jwtAuthenticationFilter, InitialAuthenticationFilter .class); // or any other filter
-
         http
                 .authorizeRequests()
                 .antMatchers("/admin/**").hasAnyRole("ROLE_ADMIN")
