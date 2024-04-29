@@ -10,15 +10,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import shop.bookbom.gateway.common.exception.BaseException;
 import shop.bookbom.gateway.common.exception.ErrorCode;
-import shop.bookbom.gateway.security.authentication.UserEmailPasswordAuthentication;
+import shop.bookbom.gateway.security.authentication.UserEmailPasswordAuthenticationToken;
 import shop.bookbom.gateway.security.jwt.JwtConfig;
 
 /**
@@ -26,10 +24,9 @@ import shop.bookbom.gateway.security.jwt.JwtConfig;
  * -> 토큰
  */
 @Slf4j
-@Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    @Autowired
+
     private final JwtConfig jwtTokenProvider;
 
     @Override
@@ -45,7 +42,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         Claims claims = jwtTokenProvider.getClaims(jwt);
 
         GrantedAuthority a = new SimpleGrantedAuthority(claims.get("role", String.class));
-        var auth = new UserEmailPasswordAuthentication(
+        var auth = new UserEmailPasswordAuthenticationToken(
                 claims.get("userId", Long.class),
                 null,
                 List.of(a)

@@ -8,9 +8,7 @@ import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
-@Component
 @RequiredArgsConstructor
 public class JwtConfig {
 //    @Value("${BOM_JWT_KEY}") : 환경변수 이름을 생각하고 설정 후 bomkey 제거하기

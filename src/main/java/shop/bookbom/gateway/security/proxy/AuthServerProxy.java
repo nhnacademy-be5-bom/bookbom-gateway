@@ -3,7 +3,6 @@ package shop.bookbom.gateway.security.proxy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import shop.bookbom.gateway.common.CommonResponse;
 import shop.bookbom.gateway.common.exception.BaseException;
@@ -17,10 +16,10 @@ import shop.bookbom.gateway.security.dto.UserIdRole;
  * getUserIdRole : email값을 통해 id와 role을 받아옴
  */
 @Slf4j
-@Component
 public class AuthServerProxy {
 
-    String baseUrl = "";
+    @Value("bookbom.shop-uri")
+    String baseUrl;
 
     @Autowired
     private RestTemplate rest;

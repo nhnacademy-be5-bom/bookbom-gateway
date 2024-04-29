@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import shop.bookbom.gateway.security.dto.UserEmailPw;
 import shop.bookbom.gateway.security.dto.UserIdRole;
@@ -19,11 +17,10 @@ import shop.bookbom.gateway.security.proxy.AuthServerProxy;
  * InitialAuthenticationFilter 후에 동작하는 filter.
  * email을 통해 role과 id값을 받아온다.
  */
-@Component
 @RequiredArgsConstructor
 @Slf4j
 public class UserIdRoleFilter extends OncePerRequestFilter {
-    @Autowired
+
     private final AuthServerProxy authServerProxy;
 
     @Override
